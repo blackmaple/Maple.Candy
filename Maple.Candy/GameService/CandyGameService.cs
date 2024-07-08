@@ -35,14 +35,14 @@ namespace Maple.Candy
         //}
         #endregion
 
-        protected sealed override async ValueTask F5_KeyDown()
+        protected sealed override async ValueTask F2_KeyDown()
         {
  
             var gameContext = await this.MonoTaskAsync(p => p.GetGameContext()).ConfigureAwait(false);
             if (gameContext && gameContext.GET_GAME_PROGRESS().VALUE == GameProgressState.InGame)
             {
                 await this.UnityTaskAsync(static (p, gameContext) => p.ShowHideItem(gameContext), gameContext).ConfigureAwait(false);
-                await this.MonoTaskAsync(static p => p.ShowMessage("透视开启!")).ConfigureAwait(false);
+                //await this.MonoTaskAsync(static p => p.ShowMessage("透视开启!")).ConfigureAwait(false);
             }
             else
             {
