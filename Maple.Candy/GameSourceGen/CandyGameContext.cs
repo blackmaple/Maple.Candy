@@ -26,6 +26,12 @@ typeof(MonoCollectorClassInfo)
     [MonoCollectorType(typeof(ItemStateListenerComponent))]
     [MonoCollectorType(typeof(ItemView))]
 
+
+
+    [MonoCollectorType(typeof(PlayerPrefsEx))]
+    [MonoCollectorType(typeof(PlayerPrefs))]
+
+    
     internal partial class CandyGameContext
     {
     }

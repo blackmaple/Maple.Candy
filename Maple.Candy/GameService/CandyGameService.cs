@@ -51,6 +51,12 @@ namespace Maple.Candy
 
         }
 
+        protected sealed override ValueTask F12_KeyDown()
+        {
+
+            
+        }
+
     }
 
 

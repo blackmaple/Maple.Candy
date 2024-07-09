@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maple.Candy", "Maple.Candy\Maple.Candy.csproj", "{153CF856-0E4C-4BEA-95EB-83BAC0EF3624}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maple.Candy", "Maple.Candy\Maple.Candy.csproj", "{153CF856-0E4C-4BEA-95EB-83BAC0EF3624}"
 EndProject
 Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
