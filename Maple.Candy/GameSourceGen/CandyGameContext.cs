@@ -11,7 +11,7 @@ typeof(MonoCollectorMember),
 typeof(MonoRuntimeContext),
 typeof(MonoCollectorClassInfo)
 )]
-
+    [MonoCollectorType(typeof(PlayerDataManager))]
     [MonoCollectorType(typeof(BattleSystem))]
     [MonoCollectorType(typeof(FightManager))]
     [MonoCollectorType(typeof(GameContext))]
@@ -31,7 +31,7 @@ typeof(MonoCollectorClassInfo)
     [MonoCollectorType(typeof(PlayerPrefsEx))]
     [MonoCollectorType(typeof(PlayerPrefs))]
 
-    
+    [MonoCollectorType(typeof(ItemStateComponent))]
     internal partial class CandyGameContext
     {
     }

@@ -38,19 +38,15 @@ namespace Maple.Candy
             return default;
         }
 
-        public static void ShowHideItem(this CandyGameContext @this, GameContext.Ptr_GameContext gameContext)
+        public static void ShowHideItem(this CandyGameContext @this, GameContext.Ptr_GameContext gameContext, bool on)
         {
-            var viewMgr = @this.ViewManager.INSTANCE;
-            if (viewMgr)
+            var itemEntities = gameContext.GET_ITEMS().LIST;
+            foreach (var itemEntity in itemEntities)
             {
-                var itemEntities = gameContext.GET_ITEMS().LIST;
-                foreach (var itemEntity in itemEntities)
+                var itemStatusListeners = itemEntity.GET_ITEM_STATE_LISTENER().VALUE;
+                foreach (var itemStatusListener in itemStatusListeners)
                 {
-                    var itemStatusListeners = itemEntity.GET_ITEM_STATE_LISTENER().VALUE;
-                    foreach (var itemStatusListener in itemStatusListeners)
-                    {
-                        itemStatusListener.ON_ITEM_STATE(itemEntity, ItemState.Flying);
-                    }
+                    itemStatusListener.ON_ITEM_STATE(itemEntity, on ? ItemState.Flying : itemEntity.GET_ITEM_STATE().VALUE);
                 }
             }
 
@@ -67,6 +63,16 @@ namespace Maple.Candy
             sb.Append(playerPrefsType.ToString());
             return @this.T(sb.ToString());
         }
+
+
+
+
+
+        public static void SendEmoType(this CandyGameContext @this,  uint key)
+        {
+            @this.BattleSystem.INSTANCE.SEND_EMO_TYPE(key, @this.PlayerDataManager.M_INSTANCE.BATTLE_SELF_INDEX);
+        }
+
         //private static int GetPlayerPrefIntValue(this CandyGameContext @this, EnumPlayerPrefType playerPrefsType, bool local = false)
         //{
         //    var name = @this.GetPlayerPrefType(playerPrefsType, local);
@@ -89,13 +95,25 @@ namespace Maple.Candy
         //    PlayerPrefs.Ptr_PlayerPrefs.SET_STRING(name, @this.T(str));
         //}
 
-        public static void RandomBombId(this CandyGameContext @this)
+        public static int RandomBombId(this CandyGameContext @this)
         {
             var name = @this.GetPlayerPrefType(EnumPlayerPrefType.CurrentBombID, true);
             var bombId = PlayerPrefs.Ptr_PlayerPrefs.GET_INT_00(name, 0);
             @this.Logger.LogInformation("bobmId={id}", bombId);
             ++bombId;
             PlayerPrefs.Ptr_PlayerPrefs.SET_INT(name, bombId);
+            return bombId;
+        }
+
+        public static string RandomMAC(this CandyGameContext @this)
+        {
+            var name = @this.GetPlayerPrefType(EnumPlayerPrefType.MACHINE_CODE, false);
+            var mac = PlayerPrefs.Ptr_PlayerPrefs.GET_STRING_00(name, name);
+            @this.Logger.LogInformation("mac={mac}", mac.ToString());
+            var val = Guid.NewGuid().ToString("N");
+            var newMAC = @this.T(val);
+            PlayerPrefs.Ptr_PlayerPrefs.SET_STRING(name, newMAC);
+            return val;
         }
     }
 
