@@ -29,11 +29,16 @@ namespace Maple.Candy
             var battleSystem = @this.BattleSystem.INSTANCE;
             if (battleSystem)
             {
-                var fightMgr = battleSystem.FIGHT_MGR;
-                if (fightMgr)
+                if (battleSystem.INPUT_CONTROLLER != nint.Zero)
                 {
-                    return fightMgr.GAME_CONTEXT;
+                    var fightMgr = battleSystem.FIGHT_MGR;
+                    if (fightMgr)
+                    {
+                        return fightMgr.GAME_CONTEXT;
+                    }
                 }
+
+
             }
             return default;
         }

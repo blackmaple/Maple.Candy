@@ -53,7 +53,7 @@ namespace Maple.Candy
     [MonoCollectorSearchFieldAttribute(typeof(FightManager.Ptr_FightManager), "fightMgr", "FIGHT_MGR")]
 
     // interface 0x58 IInputController inputController
-    // [MonoCollectorSearchFieldAttribute(typeof(nint),"inputController", "INPUT_CONTROLLER")]
+    [MonoCollectorSearchFieldAttribute(typeof(nint), "inputController", "INPUT_CONTROLLER")]
 
     // struct 0x60 System.UInt32 battleLeaveTime
     // [MonoCollectorSearchFieldAttribute(typeof(System.UInt32),"battleLeaveTime", "BATTLE_LEAVE_TIME")]

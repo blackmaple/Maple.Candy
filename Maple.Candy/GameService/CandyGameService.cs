@@ -66,9 +66,9 @@ namespace Maple.Candy
                 var switchObject = this.ListGameSwitch.Where(p => p.ObjectId == EnumGameSwitchType.FreeEmoji.ToString()).FirstOrDefault();
                 if (switchObject is not null)
                 {
-                   
+
                     await FreeEmojiAsync(switchObject.UIntContent).ConfigureAwait(false);
-                  
+
                 }
             }
             catch (GameException ex)
@@ -97,6 +97,12 @@ namespace Maple.Candy
             }
 
         }
+
+        protected sealed override ValueTask Up_KeyDown()=> TryRandomFreeEmojiAsync();
+
+        protected sealed override ValueTask Down_KeyDown() => TryRandomFreeEmojiAsync();
+        protected sealed override ValueTask Left_KeyDown() => TryRandomFreeEmojiAsync();
+        protected sealed override ValueTask Right_KeyDown() => TryRandomFreeEmojiAsync();
 
         private async Task RandomMACAsync()
         {
@@ -137,6 +143,39 @@ namespace Maple.Candy
             {
                 await this.MonoTaskAsync(static p => p.ShowMessage("游戏未开始!")).ConfigureAwait(false);
             }
+        }
+
+        private async ValueTask TryRandomFreeEmojiAsync()
+        {
+            try
+            {
+                var freeEmoji = this.ListGameSwitch.Where(p => p.ObjectId == EnumGameSwitchType.FreeEmoji.ToString()).FirstOrDefault();
+                if (freeEmoji is null)
+                {
+                    return;
+                }
+                if (freeEmoji.SelectedContents is null)
+                {
+                    return;
+                }
+                if (freeEmoji.SelectedContents.Count == 0)
+                {
+                    return;
+                }
+                var index = Random.Shared.Next(0, freeEmoji.SelectedContents.Count);
+                var data = freeEmoji.SelectedContents[index];
+                await FreeEmojiAsync(data.UIntValue).ConfigureAwait(false);
+            }
+            catch (GameException ex)
+            {
+                await this.MonoTaskAsync(static (p, msg) => p.ShowMessage(msg), ex.Message).ConfigureAwait(false);
+
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError("{ex}", ex);
+            }
+
         }
 
 
