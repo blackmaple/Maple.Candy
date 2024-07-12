@@ -36,6 +36,7 @@ namespace Maple.Candy
         //}
         #endregion
 
+
         protected sealed override async ValueTask F2_KeyDown()
         {
             try
@@ -43,9 +44,8 @@ namespace Maple.Candy
                 var switchObject = this.ListGameSwitch.Where(p => p.ObjectId == EnumGameSwitchType.ShowHideItem.ToString()).FirstOrDefault();
                 if (switchObject is not null)
                 {
-                    var on = !switchObject.SwitchValue;
-                    await ShowHideItemAsync(on).ConfigureAwait(false);
-                    switchObject.SwitchValue = on;
+                    await ShowHideItemAsync(true).ConfigureAwait(false);
+                    switchObject.SwitchValue = true;
                 }
             }
             catch (GameException ex)
@@ -57,9 +57,30 @@ namespace Maple.Candy
                 this.Logger.LogError("{ex}", ex);
             }
 
-
         }
+
         protected sealed override async ValueTask F3_KeyDown()
+        {
+            try
+            {
+                var switchObject = this.ListGameSwitch.Where(p => p.ObjectId == EnumGameSwitchType.ShowHideItem.ToString()).FirstOrDefault();
+                if (switchObject is not null)
+                {
+                    await ShowHideItemAsync(false).ConfigureAwait(false);
+                    switchObject.SwitchValue = false;
+                }
+            }
+            catch (GameException ex)
+            {
+                await this.MonoTaskAsync(static (p, msg) => p.ShowMessage(msg), ex.Message).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError("{ex}", ex);
+            }
+        }
+
+        protected sealed override async ValueTask F4_KeyDown()
         {
             try
             {
@@ -98,11 +119,15 @@ namespace Maple.Candy
 
         }
 
-        protected sealed override ValueTask Up_KeyDown()=> TryRandomFreeEmojiAsync();
 
-        protected sealed override ValueTask Down_KeyDown() => TryRandomFreeEmojiAsync();
-        protected sealed override ValueTask Left_KeyDown() => TryRandomFreeEmojiAsync();
-        protected sealed override ValueTask Right_KeyDown() => TryRandomFreeEmojiAsync();
+
+        protected sealed override ValueTask Q_KeyDown() => TryRandomFreeEmojiAsync();
+
+        //protected sealed override ValueTask Up_KeyDown()=> TryRandomFreeEmojiAsync();
+
+        //protected sealed override ValueTask Down_KeyDown() => TryRandomFreeEmojiAsync();
+        //protected sealed override ValueTask Left_KeyDown() => TryRandomFreeEmojiAsync();
+        //protected sealed override ValueTask Right_KeyDown() => TryRandomFreeEmojiAsync();
 
         private async Task RandomMACAsync()
         {
@@ -119,7 +144,7 @@ namespace Maple.Candy
                 await this.UnityTaskAsync(static (p, args) => p.ShowHideItem(args.gameContext, args.on), (gameContext, on)).ConfigureAwait(false);
                 if (on)
                 {
-                    await this.MonoTaskAsync(static p => p.ShowMessage("透视开启!")).ConfigureAwait(false);
+                    //await this.MonoTaskAsync(static p => p.ShowMessage("透视开启!")).ConfigureAwait(false);
                 }
                 else
                 {
