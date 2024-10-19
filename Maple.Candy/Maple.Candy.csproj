@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -29,21 +29,28 @@
 		<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsPreviewNamespaces>
 	</PropertyGroup>
 
-	 
-
-
-
-
-
-
 	<ItemGroup>
-		<ProjectReference Include="..\..\Maple.MonoGameAssistant\Maple.GameContext\Maple.GameContext.csproj" />
+		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.0.1-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.GameContext" Version="1.0.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.HotKey" Version="1.0.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MonoCollector" Version="1.0.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MonoCollectorDataV2" Version="1.0.1-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MonoCollectorGeneratorV2" Version="1.0.2-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.UnityCore" Version="1.0.1-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.WebApi" Version="1.0.1-rc" />
 	</ItemGroup>
-	<ItemGroup>
+	
+	
+	<!--<ItemGroup>
 		<Compile Include="..\..\Maple.MonoGameAssistant\Maple.MonoGameAssistant.DllExportTmp\DllExport.cs" Link="GameDllExport\DllExport.cs" />
 		<AdditionalFiles Include="..\..\Maple.MonoGameAssistant\Maple.MonoGameAssistant.DllExportTmp\WinHttp.Api" Link="GameDllExport\WinHttp.Api" />
-		<ProjectReference Include="..\..\Maple.MonoGameAssistant\Maple.MonoGameAssistant.DllHijackData\Maple.MonoGameAssistant.DllHijackData.csproj" />
-		<ProjectReference Include="..\..\Maple.MonoGameAssistant\Maple.MonoGameAssistant.DllHijackGenerator\Maple.MonoGameAssistant.DllHijackGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<NativeLibrary Include="Lib\Maple.MonoGameAssistant.DllProxyStaticLib.lib" />
+		<LinkerArg Include="/LTCG" />
+		<LinkerArg Include="/MAP" />
+
 	</ItemGroup>
 
 

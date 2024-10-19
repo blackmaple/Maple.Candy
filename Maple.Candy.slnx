@@ -1,6 +1,8 @@
 <Solution>
-  <Project Path="Maple.Candy\Maple.Candy.csproj" />
-  <Properties Name="Visual Studio">
-    <Property Name="OpenWith" Value="Visual Studio Version 17" />
-  </Properties>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  
+  <Project Path="Maple.Candy\Maple.Candy.csproj" Type="Classic C#" />
 </Solution>
