@@ -45,8 +45,13 @@
 		<Compile Include="..\..\Maple.MonoGameAssistant\Maple.MonoGameAssistant.DllExportTmp\DllExport.cs" Link="GameDllExport\DllExport.cs" />
 		<AdditionalFiles Include="..\..\Maple.MonoGameAssistant\Maple.MonoGameAssistant.DllExportTmp\WinHttp.Api" Link="GameDllExport\WinHttp.Api" />
 	</ItemGroup>-->
-	
-	
+
+	<ItemGroup>
+		<NativeLibrary Include="Lib\Maple.MonoGameAssistant.DllProxyStaticLib.lib" />
+		<LinkerArg Include="/LTCG" />
+		<LinkerArg Include="/MAP" />
+
+	</ItemGroup>
 
 
 
