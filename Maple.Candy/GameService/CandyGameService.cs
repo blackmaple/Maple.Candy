@@ -11,7 +11,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Maple.Candy
 {
-    internal sealed partial class CandyGameService(ILogger<CandyGameService> logger, MonoRuntimeContext runtimeContext, MonoTaskScheduler monoTaskScheduler, HookWinMsgFactory hookWinMsgFactory, MonoGameSettings gameSettings) : GameContextService<CandyGameContext>(logger, runtimeContext, monoTaskScheduler, gameSettings, hookWinMsgFactory)
+    internal sealed partial class CandyGameService(ILogger<CandyGameService> logger, MonoRuntimeContext runtimeContext, MonoTaskScheduler monoTaskScheduler, HookWinMsgFactory hookWinMsgFactory, MonoGameSettings gameSettings) 
+        : GameContextService<CandyGameContext>(logger, runtimeContext, monoTaskScheduler, gameSettings, hookWinMsgFactory)
     {
 
         #region LoadService
@@ -20,10 +21,10 @@ namespace Maple.Candy
         protected sealed override CandyGameContext LoadGameContext()
            => CandyGameContext.LoadGameContext(this.RuntimeContext, EnumMonoCollectorTypeVersion.APP, Logger);
 
-        protected sealed override UnityEngineContext LoadUnityEngineContext()
-        {
-            return default!;
-        }
+        //protected sealed override UnityEngineContext LoadUnityEngineContext()
+        //{
+        //    return default!;
+        //}
 
         #endregion
 
