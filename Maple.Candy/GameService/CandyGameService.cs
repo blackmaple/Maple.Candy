@@ -1,39 +1,30 @@
-﻿using Maple.GameContext;
-using Maple.MonoGameAssistant.Common;
-using Maple.MonoGameAssistant.Core;
+﻿using Maple.MonoGameAssistant.Core;
+using Maple.MonoGameAssistant.GameContext;
 using Maple.MonoGameAssistant.GameDTO;
+using Maple.MonoGameAssistant.HotKey;
 using Maple.MonoGameAssistant.Model;
 using Maple.MonoGameAssistant.MonoCollectorDataV2;
-using Maple.MonoGameAssistant.UnityCore;
+using Maple.MonoGameAssistant.UITask;
 using Maple.MonoGameAssistant.UnityCore.UnityEngine;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
 
 
 namespace Maple.Candy
 {
-    internal sealed partial class CandyGameService(
-        ILogger<CandyGameService> logger,
-        MonoRuntimeContext runtimeContext,
-        MonoGameSettings gameSettings)
-        : GameService<CandyGameContext>(logger, runtimeContext, gameSettings)
+    internal sealed partial class CandyGameService(ILogger<CandyGameService> logger, MonoRuntimeContext runtimeContext, MonoTaskScheduler monoTaskScheduler, HookWinMsgFactory hookWinMsgFactory, MonoGameSettings gameSettings) : GameContextService<CandyGameContext>(logger, runtimeContext, monoTaskScheduler, gameSettings, hookWinMsgFactory)
     {
 
         #region LoadService
 
-        protected sealed override bool EnableService => true;
 
         protected sealed override CandyGameContext LoadGameContext()
-           => CandyGameContext.LoadCandyGameContext(this.RuntimeContext, EnumMonoCollectorTypeVersion.Ver_Common, this.Logger);
+           => CandyGameContext.LoadGameContext(this.RuntimeContext, EnumMonoCollectorTypeVersion.APP, Logger);
+
         protected sealed override UnityEngineContext LoadUnityEngineContext()
         {
             return default!;
         }
-        //protected sealed override GameSwitchDisplayDTO[] InitListGameSwitch()
-        //{
-        //    return Enumerable.Range(0, 10).Select(p => new GameSwitchDisplayDTO { ObjectId = p.ToString(), DisplayName = $"DisplayName_{p}", DisplayDesc = $"DisplayDesc_{p}", SwitchValue = false }).ToArray();
-        //}
+
         #endregion
 
 
@@ -141,7 +132,7 @@ namespace Maple.Candy
             var gameContext = await this.MonoTaskAsync(p => p.GetGameContext()).ConfigureAwait(false);
             if (gameContext && gameContext.GET_GAME_PROGRESS().VALUE == GameProgressState.InGame)
             {
-                await this.UnityTaskAsync(static (p, args) => p.ShowHideItem(args.gameContext, args.on), (gameContext, on)).ConfigureAwait(false);
+                await this.UITaskAsync(static (p, args) => p.ShowHideItem(args.gameContext, args.on), (gameContext, on)).ConfigureAwait(false);
                 if (on)
                 {
                     //await this.MonoTaskAsync(static p => p.ShowMessage("透视开启!")).ConfigureAwait(false);
@@ -162,7 +153,7 @@ namespace Maple.Candy
             var gameContext = await this.MonoTaskAsync(p => p.GetGameContext()).ConfigureAwait(false);
             if (gameContext && gameContext.GET_GAME_PROGRESS().VALUE == GameProgressState.InGame)
             {
-                await this.UnityTaskAsync(static (p, id) => p.SendEmoType(id), id).ConfigureAwait(false);
+                await this.UITaskAsync(static (p, id) => p.SendEmoType(id), id).ConfigureAwait(false);
             }
             else
             {
@@ -255,7 +246,7 @@ namespace Maple.Candy
                 return [];
             }
             return [
-                new GameSwitchDisplayDTO(){ObjectId=nameof(EnumGameSwitchType.RandomMAC),DisplayName="随机MAC(F11)",DisplayDesc ="登录前使用",ButtonType=true,SwitchValue =false } ,
+                new GameSwitchDisplayDTO(){ObjectId=nameof(EnumGameSwitchType.RandomMAC),DisplayName="随机MAC(F11)",DisplayDesc ="登录前使用", SwitchValue =false } ,
                 new GameSwitchDisplayDTO(){ObjectId=nameof(EnumGameSwitchType.ShowHideItem),DisplayName="透视道具(F2)",DisplayDesc ="游戏内使用" ,SwitchValue =false } ,
                 new GameSwitchDisplayDTO(){ObjectId=nameof(EnumGameSwitchType.FreeEmoji),DisplayName="免费表情(F3)",DisplayDesc ="游戏内使用" ,ContentValue=datas[0].DisplayValue ,SelectedContents =datas} ,
 
